@@ -4,8 +4,12 @@ import {
   Code2, Palette, Globe, Smartphone, Star, Download, MapPin, Calendar,
   Briefcase, GraduationCap, Award, ChevronRight, Twitter, Dribbble,
   Send, CheckCircle2, Sparkles, Brain, Layers, Monitor, Phone,
-  Users, Coffee, GitBranch, Clock, Quote, ChevronLeft, AlertCircle
+  Users, Coffee, GitBranch, Clock, Quote, ChevronLeft, AlertCircle,
+  Youtube, Instagram, Rss, BookOpen, MessageCircle, Codepen, Search,
+  Lightbulb, PenTool, Rocket, LifeBuoy, Plus, Minus, Check, Circle,
+  TrendingUp, Sun, Moon
 } from 'lucide-react'
+import { useTheme, THEMES } from '@/context/ThemeContext'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -30,6 +34,10 @@ const navTabs = [
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
   { id: 'experience', label: 'Experience' },
+  { id: 'process', label: 'Process' },
+  { id: 'pricing', label: 'Pricing' },
+  { id: 'blog', label: 'Blog' },
+  { id: 'faq', label: 'FAQ' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -103,6 +111,142 @@ const socialLinks = [
   { icon: Linkedin, href: '#', label: 'LinkedIn' },
   { icon: Twitter, href: '#', label: 'Twitter' },
   { icon: Dribbble, href: '#', label: 'Dribbble' },
+]
+
+const socialPlatforms = [
+  { icon: Github,         handle: '@johndoe',       platform: 'GitHub',        followers: '12.4K', accent: 'text-white',    bg: 'from-slate-600 to-slate-800',  href: '#' },
+  { icon: Linkedin,       handle: '/in/johndoe',    platform: 'LinkedIn',      followers: '8.2K',  accent: 'text-sky-300',  bg: 'from-sky-600 to-blue-700',     href: '#' },
+  { icon: Twitter,        handle: '@johndoe',       platform: 'X / Twitter',   followers: '24.1K', accent: 'text-sky-200',  bg: 'from-sky-500 to-cyan-600',     href: '#' },
+  { icon: Youtube,        handle: '@johndoe',       platform: 'YouTube',       followers: '6.8K',  accent: 'text-red-300',  bg: 'from-red-600 to-rose-700',     href: '#' },
+  { icon: Instagram,      handle: '@johndoe.dev',   platform: 'Instagram',     followers: '3.4K',  accent: 'text-pink-300', bg: 'from-fuchsia-600 to-pink-600', href: '#' },
+  { icon: BookOpen,       handle: '@johndoe',       platform: 'Medium',        followers: '5.1K',  accent: 'text-emerald-300', bg: 'from-emerald-600 to-teal-700', href: '#' },
+  { icon: Rss,            handle: '@johndoe',       platform: 'Dev.to',        followers: '2.7K',  accent: 'text-indigo-300', bg: 'from-indigo-600 to-violet-700', href: '#' },
+  { icon: MessageCircle,  handle: 'johndoe#1234',   platform: 'Discord',       followers: '1.9K',  accent: 'text-indigo-200', bg: 'from-violet-600 to-indigo-700', href: '#' },
+  { icon: Dribbble,       handle: '@johndoe',       platform: 'Dribbble',      followers: '4.0K',  accent: 'text-pink-200',    bg: 'from-pink-500 to-rose-600',    href: '#' },
+  { icon: Codepen,        handle: '@johndoe',       platform: 'CodePen',       followers: '1.2K',  accent: 'text-amber-200',   bg: 'from-amber-500 to-orange-600', href: '#' },
+]
+
+const clientBrands = [
+  { name: 'STRIPE',    style: 'font-bold italic tracking-tight' },
+  { name: 'NOTION',    style: 'font-black tracking-widest' },
+  { name: 'LINEAR',    style: 'font-semibold tracking-wide' },
+  { name: 'VERCEL',    style: 'font-black tracking-tighter uppercase' },
+  { name: 'Figma',     style: 'font-extrabold italic' },
+  { name: 'GITHUB',    style: 'font-bold uppercase tracking-[0.2em]' },
+  { name: 'shadcn/ui', style: 'font-mono font-semibold lowercase' },
+  { name: 'SUPABASE',  style: 'font-bold tracking-wide' },
+]
+
+const processSteps = [
+  { icon: Search,    title: 'Discovery',    desc: 'Deep-dive into goals, users, and constraints. Output: a crisp one-pager with risks and success metrics.',  duration: '3–5 days' },
+  { icon: Lightbulb, title: 'Strategy',     desc: 'Scope the MVP, pick the stack, and de-risk the unknowns. Output: a prioritized plan and architecture sketch.', duration: '4–7 days' },
+  { icon: PenTool,   title: 'Design',       desc: 'Wireframes then pixel-perfect UI in Figma. Output: an interactive prototype and a design system.',         duration: '1–2 weeks' },
+  { icon: Code2,     title: 'Build',        desc: 'Ship in short iterations with weekly demos. Output: production-grade code with tests and CI/CD.',         duration: '3–8 weeks' },
+  { icon: Rocket,    title: 'Launch',       desc: 'Harden, load-test, and deploy with observability in place. Output: live product with dashboards.',        duration: '1 week' },
+  { icon: LifeBuoy,  title: 'Support',      desc: 'Retainer for iteration, analytics reviews, and on-call. Output: monthly report and roadmap tune-ups.',    duration: 'Ongoing' },
+]
+
+const pricingPackages = [
+  {
+    name: 'Consulting',
+    tagline: 'One-off sessions',
+    price: '$180',
+    unit: '/ hour',
+    description: 'Architecture reviews, code audits, or a workshop. Great when you need a second brain for a hard call.',
+    features: ['60–90 min deep-dive calls', 'Written follow-up with action items', 'Async Slack for one week', 'Pay as you go, no minimum'],
+    cta: 'Book a call',
+    highlighted: false,
+  },
+  {
+    name: 'Project',
+    tagline: 'Fixed scope, fixed price',
+    price: '$12K',
+    unit: '+ / project',
+    description: 'From landing pages to full-stack apps. You get strategy, design, and engineering in one thread.',
+    features: ['Discovery & scoping included', 'Weekly Loom demos', 'Dedicated Figma & GitHub repo', 'Two weeks post-launch support', '30-day bug-fix guarantee'],
+    cta: 'Start a project',
+    highlighted: true,
+  },
+  {
+    name: 'Retainer',
+    tagline: 'Part-time, long-term',
+    price: '$8K',
+    unit: '/ month',
+    description: 'Embedded engineering for teams that need senior firepower without a full-time hire.',
+    features: ['~20 hours / week of focused work', 'Weekly planning + standups', 'On-call for incidents', 'Priority over project work', 'Quarterly roadmap reviews'],
+    cta: 'Chat about fit',
+    highlighted: false,
+  },
+]
+
+const blogPosts = [
+  {
+    id: 1,
+    title: 'Rendering 2M data points in the browser without tanking the main thread',
+    excerpt: 'How I rebuilt FinTrack\'s chart layer with WebWorkers, virtualization, and WebGL to keep interactions under 16ms.',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop',
+    date: 'Mar 14, 2026',
+    readTime: '9 min read',
+    tags: ['Performance', 'WebGL', 'React'],
+    href: '#',
+  },
+  {
+    id: 2,
+    title: 'A pragmatic guide to LLM prompt caching in production',
+    excerpt: 'Why I stopped chasing benchmarks and started measuring dollars — a cost-first framework for adding caching to your AI apps.',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=500&fit=crop',
+    date: 'Feb 28, 2026',
+    readTime: '12 min read',
+    tags: ['AI', 'LLMs', 'Cost'],
+    href: '#',
+  },
+  {
+    id: 3,
+    title: 'Terraform modules I actually re-use (and the ones I deleted)',
+    excerpt: 'Seven years of infra-as-code distilled into a short list of patterns that scale — and an honest list of the anti-patterns I regret.',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=500&fit=crop',
+    date: 'Feb 06, 2026',
+    readTime: '7 min read',
+    tags: ['DevOps', 'Terraform', 'AWS'],
+    href: '#',
+  },
+  {
+    id: 4,
+    title: 'Design systems are products — treat them that way',
+    excerpt: 'Mosaic shipped to 40+ teams. Here\'s what I learned about versioning, support, and saying "no" to 90% of requests.',
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=500&fit=crop',
+    date: 'Jan 18, 2026',
+    readTime: '6 min read',
+    tags: ['Design Systems', 'Product'],
+    href: '#',
+  },
+]
+
+const faqs = [
+  {
+    q: 'How long does a typical project take?',
+    a: 'Small marketing sites land in 2–3 weeks. Full-stack apps with auth, payments, and an admin panel are usually 6–10 weeks. I\'ll always give a firm estimate after discovery — and I\'ll tell you if it feels off.',
+  },
+  {
+    q: 'Do you work with existing codebases?',
+    a: 'Yes. I\'ve inherited everything from clean Next.js repos to legacy Rails monoliths. I start with a short audit so we share the same mental model before anyone touches production.',
+  },
+  {
+    q: 'Can you work with my designer / agency?',
+    a: 'Absolutely. I regularly embed with design teams and other agencies. I\'m comfortable with Figma handoff, design reviews, and picking up partial work without drama.',
+  },
+  {
+    q: 'What\'s your stack?',
+    a: 'For new products: TypeScript, React/Next.js, Node or Go on the backend, Postgres, and Vercel or AWS. For ML: Python with FastAPI. I\'ll match your stack if you have one — I\'m not dogmatic.',
+  },
+  {
+    q: 'Do you sign NDAs and offer IP transfer?',
+    a: 'Yes to both. Standard mutual NDA is fine, and full IP transfers on the final invoice for all project work. No open-source encumbrance unless we agree upfront.',
+  },
+  {
+    q: 'What about support after launch?',
+    a: 'Every project includes two weeks of bug-fix support. For ongoing work I offer monthly retainers (see Pricing) or hourly consulting — whichever fits your cadence.',
+  },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -206,6 +350,22 @@ function App({ onNavigate }) {
   const [contactSent, setContactSent] = useState(false)
   const [formErrors, setFormErrors] = useState({})
   const [formValues, setFormValues] = useState({ name: '', email: '', subject: '', message: '' })
+  const [openFaq, setOpenFaq] = useState(0)
+  const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [newsletterStatus, setNewsletterStatus] = useState('idle')
+  const [themePickerOpen, setThemePickerOpen] = useState(false)
+  const { theme, setTheme, isDark, toggleDark } = useTheme()
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault()
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newsletterEmail)) {
+      setNewsletterStatus('error')
+      return
+    }
+    setNewsletterStatus('success')
+    setNewsletterEmail('')
+    setTimeout(() => setNewsletterStatus('idle'), 4000)
+  }
 
   const typedTitle = useTypingEffect(TYPING_TITLES)
 
@@ -232,41 +392,104 @@ function App({ onNavigate }) {
     if (formErrors[field]) setFormErrors((e) => ({ ...e, [field]: undefined }))
   }
 
+  const isMidnight = theme === 'midnight'
+  const rootBg = isDark
+    ? (isMidnight ? 'bg-black text-white' : 'bg-slate-950 text-white')
+    : 'bg-white text-slate-900'
+  const navBg = isDark
+    ? (isMidnight ? 'bg-black/90 border-white/5' : 'bg-slate-950/80 border-white/5')
+    : 'bg-white/80 border-slate-900/10'
+  const surfaceMuted = isDark ? 'text-slate-400' : 'text-slate-600'
+  const surfaceDim = isDark ? 'text-slate-500' : 'text-slate-500'
+  const hairline = isDark ? 'border-white/5' : 'border-slate-900/10'
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white font-sans">
+    <div className={`min-h-screen ${rootBg} font-sans transition-colors duration-300`}>
       <style>{inlineStyles}</style>
 
       {/* ---- Navigation ---- */}
-      <nav className="fixed w-full top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5">
+      <nav className={`fixed w-full top-0 z-50 backdrop-blur-xl border-b ${navBg}`}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="#" className="text-xl font-bold font-display">
-            <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">JD</span>
-            <span className="text-white/60 font-normal ml-1">portfolio</span>
+          <a href="#" className="text-xl font-bold font-display flex items-center">
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(90deg, var(--accent-color), var(--accent-color-2))' }}>JD</span>
+            <span className={`${isDark ? 'text-white/60' : 'text-slate-500'} font-normal ml-1`}>portfolio</span>
           </a>
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             <Tabs
               tabs={navTabs}
               active={activeTab}
               onChange={setActiveTab}
-              className="bg-white/[0.04] border border-white/5"
+              className={isDark ? 'bg-white/[0.04] border border-white/5' : 'bg-slate-900/5 border border-slate-900/10'}
             />
           </div>
-          <div className="hidden md:flex items-center gap-3">
-            <Button size="sm" className="bg-violet-600 hover:bg-violet-700 rounded-full px-5">
+          <div className="hidden md:flex items-center gap-2">
+            {/* Theme quick-picker */}
+            <div className="relative">
+              <button
+                onClick={() => setThemePickerOpen((o) => !o)}
+                className={`w-9 h-9 rounded-full border flex items-center justify-center transition-colors ${isDark ? 'border-white/10 text-slate-400 hover:text-white hover:bg-white/5' : 'border-slate-900/10 text-slate-600 hover:text-slate-900 hover:bg-slate-900/5'}`}
+                aria-label="Theme color"
+              >
+                <Palette className="w-4 h-4" />
+              </button>
+              {themePickerOpen && (
+                <div className={`absolute right-0 top-11 p-3 rounded-2xl shadow-2xl min-w-[220px] border ${isDark ? 'bg-slate-900 border-white/10' : 'bg-white border-slate-900/10'}`}>
+                  <p className={`text-[10px] font-semibold uppercase tracking-wider mb-2 ${surfaceDim}`}>Accent</p>
+                  <div className="grid grid-cols-4 gap-2 mb-3">
+                    {Object.entries(THEMES).map(([key, t]) => (
+                      <button
+                        key={key}
+                        onClick={() => { setTheme(key); setThemePickerOpen(false) }}
+                        className={`aspect-square rounded-lg border-2 transition-all flex items-center justify-center ${theme === key ? (isDark ? 'border-white' : 'border-slate-900') : 'border-transparent'}`}
+                        style={{ backgroundColor: t.color }}
+                        title={t.label}
+                      >
+                        {theme === key && <Check className="w-4 h-4 text-white drop-shadow" />}
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    onClick={toggleDark}
+                    className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${isDark ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-900/5 text-slate-700'}`}
+                  >
+                    <span className="flex items-center gap-2">
+                      {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                      {isDark ? 'Light mode' : 'Dark mode'}
+                    </span>
+                    <span className={`text-xs ${surfaceDim}`}>{isDark ? 'ON' : 'OFF'}</span>
+                  </button>
+                </div>
+              )}
+            </div>
+            <Button size="sm" className="rounded-full px-5 text-white shadow-lg" style={{ backgroundColor: 'var(--accent-color)' }}>
               <Download className="w-3.5 h-3.5 mr-1.5" /> Resume
             </Button>
           </div>
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-slate-400 hover:text-white">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={`lg:hidden p-2 ${surfaceMuted} ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}>
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
         {mobileMenuOpen && (
-          <div className="md:hidden px-6 pb-6 space-y-1 border-t border-white/5">
+          <div className={`lg:hidden px-6 pb-6 space-y-1 border-t ${hairline}`}>
             {navTabs.map((tab) => (
-              <button key={tab.id} onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false) }} className={`block w-full text-left py-3 transition-colors ${activeTab === tab.id ? 'text-white' : 'text-slate-400 hover:text-white'}`}>
+              <button key={tab.id} onClick={() => { setActiveTab(tab.id); setMobileMenuOpen(false) }} className={`block w-full text-left py-3 transition-colors ${activeTab === tab.id ? (isDark ? 'text-white' : 'text-slate-900') : `${surfaceMuted} ${isDark ? 'hover:text-white' : 'hover:text-slate-900'}`}`}>
                 {tab.label}
               </button>
             ))}
+            <div className={`flex items-center gap-2 pt-3 border-t ${hairline}`}>
+              {Object.entries(THEMES).map(([key, t]) => (
+                <button
+                  key={key}
+                  onClick={() => setTheme(key)}
+                  className={`w-7 h-7 rounded-full border-2 transition-all ${theme === key ? (isDark ? 'border-white' : 'border-slate-900') : 'border-transparent'}`}
+                  style={{ backgroundColor: t.color }}
+                  title={t.label}
+                />
+              ))}
+              <button onClick={toggleDark} className={`ml-auto p-1.5 rounded-lg ${isDark ? 'hover:bg-white/10' : 'hover:bg-slate-900/5'}`}>
+                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
         )}
       </nav>
@@ -326,6 +549,23 @@ function App({ onNavigate }) {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- Clients / Brands strip ---- */}
+      <section className={`py-8 border-b ${hairline}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <p className={`text-center text-xs uppercase tracking-[0.25em] ${surfaceDim} mb-6`}>Trusted by teams at</p>
+          <div className={`flex flex-wrap justify-center items-center gap-x-10 gap-y-4 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+            {clientBrands.map((b) => (
+              <span
+                key={b.name}
+                className={`${b.style} text-base sm:text-lg select-none transition-colors ${isDark ? 'hover:text-slate-300' : 'hover:text-slate-600'}`}
+              >
+                {b.name}
+              </span>
+            ))}
           </div>
         </div>
       </section>
@@ -622,6 +862,241 @@ function App({ onNavigate }) {
           </div>
         </TabContent>
 
+        {/* == PROCESS == */}
+        <TabContent id="process" active={activeTab} className="py-24">
+          <div className="text-center mb-16">
+            <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>How I Work</span>
+            <h2 className="text-3xl md:text-4xl font-bold font-display mt-3">From idea to launch</h2>
+            <p className={`mt-4 max-w-2xl mx-auto ${surfaceMuted}`}>
+              A repeatable, six-step process refined over 50+ shipped projects. Every phase has a concrete output so you always know what you&apos;re paying for.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 stagger-children">
+            {processSteps.map(({ icon: Icon, title, desc, duration }, i) => (
+              <Card key={title} className="glass-card transition-all duration-300 group relative overflow-hidden">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center"
+                      style={{ backgroundColor: 'color-mix(in srgb, var(--accent-color) 15%, transparent)' }}
+                    >
+                      <Icon className="w-6 h-6" style={{ color: 'var(--accent-color)' }} />
+                    </div>
+                    <span className={`text-5xl font-black font-display opacity-[0.06] ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <h3 className="font-semibold font-display text-lg mb-2">{title}</h3>
+                  <p className={`text-sm leading-relaxed mb-4 ${surfaceMuted}`}>{desc}</p>
+                  <div className={`flex items-center gap-2 text-xs pt-3 border-t ${hairline}`}>
+                    <Clock className="w-3.5 h-3.5" style={{ color: 'var(--accent-color)' }} />
+                    <span className={surfaceDim}>{duration}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabContent>
+
+        {/* == PRICING == */}
+        <TabContent id="pricing" active={activeTab} className="py-24">
+          <div className="text-center mb-16">
+            <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Engagement Models</span>
+            <h2 className="text-3xl md:text-4xl font-bold font-display mt-3">Simple, transparent pricing</h2>
+            <p className={`mt-4 max-w-2xl mx-auto ${surfaceMuted}`}>
+              Three ways to work together. All prices are starting points — final numbers come after we scope together.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {pricingPackages.map((plan) => (
+              <Card
+                key={plan.name}
+                className={`relative overflow-hidden transition-all duration-300 ${
+                  plan.highlighted
+                    ? 'glass-card scale-[1.02] shadow-2xl'
+                    : 'glass-card'
+                }`}
+                style={plan.highlighted ? { borderColor: 'var(--accent-color)' } : {}}
+              >
+                {plan.highlighted && (
+                  <div
+                    className="absolute top-0 left-0 right-0 h-1"
+                    style={{ background: 'linear-gradient(90deg, var(--accent-color), var(--accent-color-2))' }}
+                  />
+                )}
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-semibold font-display text-xl">{plan.name}</h3>
+                    {plan.highlighted && (
+                      <Badge
+                        className="text-white border-0"
+                        style={{ backgroundColor: 'var(--accent-color)' }}
+                      >
+                        Most popular
+                      </Badge>
+                    )}
+                  </div>
+                  <p className={`text-xs uppercase tracking-wider ${surfaceDim} mb-4`}>{plan.tagline}</p>
+                  <div className="flex items-baseline gap-1 mb-4">
+                    <span className="text-4xl font-bold font-display">{plan.price}</span>
+                    <span className={`text-sm ${surfaceMuted}`}>{plan.unit}</span>
+                  </div>
+                  <p className={`text-sm leading-relaxed mb-6 ${surfaceMuted}`}>{plan.description}</p>
+                  <ul className="space-y-2.5 mb-6">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5 text-sm">
+                        <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'var(--accent-color)' }} />
+                        <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button
+                    className={`w-full rounded-xl ${plan.highlighted ? 'text-white shadow-lg' : ''}`}
+                    style={plan.highlighted ? { backgroundColor: 'var(--accent-color)' } : {}}
+                    variant={plan.highlighted ? 'default' : 'outline'}
+                    onClick={() => setActiveTab('contact')}
+                  >
+                    {plan.cta}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className={`mt-12 max-w-3xl mx-auto text-center text-sm ${surfaceMuted}`}>
+            <p>Need something custom? <button onClick={() => setActiveTab('contact')} className="underline decoration-dotted hover:no-underline" style={{ color: 'var(--accent-color)' }}>Let&apos;s chat</button> — I also work on equity, revenue share, and nonprofit rates case by case.</p>
+          </div>
+        </TabContent>
+
+        {/* == BLOG == */}
+        <TabContent id="blog" active={activeTab} className="py-24">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
+            <div>
+              <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Writing</span>
+              <h2 className="text-3xl md:text-4xl font-bold font-display mt-3">Notes from the trenches</h2>
+              <p className={`mt-3 ${surfaceMuted}`}>Long-form posts about the hard problems I&apos;ve actually shipped against.</p>
+            </div>
+            <Button variant="outline" className={`rounded-full ${isDark ? 'border-white/10 text-white hover:bg-white/5' : 'border-slate-300 hover:bg-slate-100'}`}>
+              <Rss className="w-4 h-4 mr-2" /> RSS feed
+            </Button>
+          </div>
+
+          {/* Featured post */}
+          <Card className="glass-card overflow-hidden mb-8 group cursor-pointer">
+            <div className="grid md:grid-cols-5">
+              <div className="md:col-span-2 relative aspect-[4/3] md:aspect-auto overflow-hidden">
+                <img src={blogPosts[0].image} alt={blogPosts[0].title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-3 left-3">
+                  <Badge className="text-white border-0" style={{ backgroundColor: 'var(--accent-color)' }}>Featured</Badge>
+                </div>
+              </div>
+              <CardContent className="md:col-span-3 p-6 md:p-8 flex flex-col justify-center">
+                <div className={`flex items-center gap-3 text-xs ${surfaceDim} mb-3`}>
+                  <span>{blogPosts[0].date}</span>
+                  <span>&middot;</span>
+                  <span>{blogPosts[0].readTime}</span>
+                </div>
+                <h3 className="font-bold font-display text-2xl md:text-3xl mb-3 group-hover:text-[var(--accent-color)] transition-colors">
+                  {blogPosts[0].title}
+                </h3>
+                <p className={`${surfaceMuted} leading-relaxed mb-5`}>{blogPosts[0].excerpt}</p>
+                <div className="flex flex-wrap gap-1.5 mb-5">
+                  {blogPosts[0].tags.map((t) => (
+                    <Badge key={t} variant="outline" className={isDark ? 'border-white/10 text-slate-300' : 'border-slate-300 text-slate-600'}>{t}</Badge>
+                  ))}
+                </div>
+                <a href={blogPosts[0].href} className="inline-flex items-center gap-1.5 text-sm font-medium" style={{ color: 'var(--accent-color)' }}>
+                  Read the post <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </CardContent>
+            </div>
+          </Card>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {blogPosts.slice(1).map((post) => (
+              <Card key={post.id} className="glass-card overflow-hidden group cursor-pointer transition-all duration-300">
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                </div>
+                <CardContent className="p-5">
+                  <div className={`flex items-center gap-2 text-xs ${surfaceDim} mb-2`}>
+                    <span>{post.date}</span>
+                    <span>&middot;</span>
+                    <span>{post.readTime}</span>
+                  </div>
+                  <h3 className="font-semibold font-display text-lg mb-2 line-clamp-2 group-hover:text-[var(--accent-color)] transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className={`text-sm leading-relaxed mb-4 line-clamp-3 ${surfaceMuted}`}>{post.excerpt}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {post.tags.map((t) => (
+                      <Badge key={t} variant="outline" className={`text-xs ${isDark ? 'border-white/10 text-slate-400' : 'border-slate-300 text-slate-500'}`}>{t}</Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabContent>
+
+        {/* == FAQ == */}
+        <TabContent id="faq" active={activeTab} className="py-24">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-14">
+              <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Questions</span>
+              <h2 className="text-3xl md:text-4xl font-bold font-display mt-3">Frequently asked</h2>
+              <p className={`mt-4 ${surfaceMuted}`}>Short answers to what most people ask before we start working together.</p>
+            </div>
+
+            <div className="space-y-3">
+              {faqs.map((f, i) => {
+                const open = openFaq === i
+                return (
+                  <div
+                    key={f.q}
+                    className={`glass-card rounded-xl overflow-hidden transition-all ${open ? 'shadow-lg' : ''}`}
+                    style={open ? { borderColor: 'var(--accent-color)' } : {}}
+                  >
+                    <button
+                      onClick={() => setOpenFaq(open ? -1 : i)}
+                      className="w-full flex items-center justify-between gap-4 text-left px-5 py-4"
+                      aria-expanded={open}
+                    >
+                      <span className="font-medium font-display">{f.q}</span>
+                      <span
+                        className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform ${open ? 'rotate-45' : ''}`}
+                        style={{ backgroundColor: open ? 'var(--accent-color)' : 'color-mix(in srgb, var(--accent-color) 15%, transparent)', color: open ? '#fff' : 'var(--accent-color)' }}
+                      >
+                        <Plus className="w-4 h-4" />
+                      </span>
+                    </button>
+                    <div
+                      className={`grid transition-[grid-template-rows] duration-300 ease-out ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+                    >
+                      <div className="overflow-hidden">
+                        <p className={`px-5 pb-5 text-sm leading-relaxed ${surfaceMuted}`}>{f.a}</p>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className={`mt-10 p-6 rounded-2xl text-center glass-card`}>
+              <p className="text-sm mb-3">Still have questions?</p>
+              <Button
+                onClick={() => setActiveTab('contact')}
+                className="rounded-full text-white shadow-lg"
+                style={{ backgroundColor: 'var(--accent-color)' }}
+              >
+                Get in touch <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+          </div>
+        </TabContent>
+
         {/* == CONTACT == */}
         <TabContent id="contact" active={activeTab} className="py-24">
           <div className="max-w-4xl mx-auto">
@@ -713,15 +1188,79 @@ function App({ onNavigate }) {
               </div>
             </div>
 
-            {/* Social row */}
-            <div className="mt-8 text-center">
-              <p className="text-sm text-slate-500 mb-4">Or find me on</p>
-              <div className="flex justify-center gap-3">
-                {socialLinks.map(({ icon: Icon, href, label }) => (
-                  <a key={label} href={href} className="p-3 glass-card rounded-xl text-slate-400 hover:text-white transition-all" aria-label={label}>
-                    <Icon className="w-5 h-5" />
+            {/* Social Wall */}
+            <div className="mt-16">
+              <div className="text-center mb-8">
+                <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Social Wall</span>
+                <h3 className="text-2xl font-bold font-display mt-2">Follow along</h3>
+                <p className={`text-sm mt-2 ${surfaceMuted}`}>40K+ followers across ten platforms — pick your favorite.</p>
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                {socialPlatforms.map(({ icon: Icon, handle, platform, followers, bg, href }) => (
+                  <a
+                    key={platform}
+                    href={href}
+                    className="group relative glass-card rounded-xl p-4 transition-all duration-300 overflow-hidden"
+                  >
+                    <div className={`absolute inset-0 bg-gradient-to-br ${bg} opacity-0 group-hover:opacity-20 transition-opacity`} />
+                    <div className="relative flex items-start justify-between mb-3">
+                      <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${bg} flex items-center justify-center shadow-lg`}>
+                        <Icon className="w-4 h-4 text-white" />
+                      </div>
+                      <ArrowUpRight className={`w-4 h-4 ${surfaceDim} opacity-0 group-hover:opacity-100 transition-opacity`} />
+                    </div>
+                    <p className="relative font-semibold font-display text-sm">{platform}</p>
+                    <p className={`relative text-xs ${surfaceDim} mb-2 truncate`}>{handle}</p>
+                    <div className={`relative flex items-center gap-1 text-xs ${surfaceMuted}`}>
+                      <TrendingUp className="w-3 h-3" />
+                      <span>{followers} followers</span>
+                    </div>
                   </a>
                 ))}
+              </div>
+            </div>
+
+            {/* Newsletter signup */}
+            <div
+              className="mt-16 rounded-2xl p-8 relative overflow-hidden"
+              style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--accent-color) 12%, transparent), color-mix(in srgb, var(--accent-color-2) 10%, transparent))' }}
+            >
+              <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full blur-3xl opacity-30" style={{ backgroundColor: 'var(--accent-color)' }} />
+              <div className="relative max-w-xl mx-auto text-center">
+                <div
+                  className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-4"
+                  style={{ backgroundColor: 'color-mix(in srgb, var(--accent-color) 20%, transparent)' }}
+                >
+                  <Mail className="w-5 h-5" style={{ color: 'var(--accent-color)' }} />
+                </div>
+                <h3 className="text-2xl font-bold font-display mb-2">Get the monthly deep-dive</h3>
+                <p className={`text-sm mb-6 ${surfaceMuted}`}>
+                  One long post per month on performance, AI, or platform engineering — written for senior engineers. No fluff, unsubscribe anytime.
+                </p>
+                <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                  <Input
+                    type="email"
+                    placeholder="you@company.com"
+                    value={newsletterEmail}
+                    onChange={(e) => { setNewsletterEmail(e.target.value); if (newsletterStatus !== 'idle') setNewsletterStatus('idle') }}
+                    required
+                    className={isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-slate-500' : 'bg-white border-slate-200'}
+                  />
+                  <Button type="submit" className="rounded-xl text-white shadow-lg flex-shrink-0" style={{ backgroundColor: 'var(--accent-color)' }}>
+                    Subscribe <Send className="w-4 h-4 ml-2" />
+                  </Button>
+                </form>
+                {newsletterStatus === 'success' && (
+                  <p className="text-sm mt-3 flex items-center justify-center gap-1.5 text-emerald-400">
+                    <CheckCircle2 className="w-4 h-4" /> You&apos;re in. Check your inbox to confirm.
+                  </p>
+                )}
+                {newsletterStatus === 'error' && (
+                  <p className="text-sm mt-3 flex items-center justify-center gap-1.5 text-red-400">
+                    <AlertCircle className="w-4 h-4" /> Please enter a valid email address.
+                  </p>
+                )}
+                <p className={`text-xs mt-4 ${surfaceDim}`}>Join 3,200+ engineers reading every issue.</p>
               </div>
             </div>
           </div>
@@ -729,18 +1268,66 @@ function App({ onNavigate }) {
       </div>
 
       {/* ---- Footer ---- */}
-      <footer className="py-10 border-t border-white/5">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div>
-            <span className="font-bold font-display text-lg bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">JD</span>
-            <p className="text-sm text-slate-500 mt-1">&copy; 2026 John Doe. All rights reserved.</p>
-          </div>
-          <div className="flex items-center gap-4">
-            {socialLinks.map(({ icon: Icon, href, label }) => (
-              <a key={label} href={href} className="p-2 text-slate-500 hover:text-white transition-colors" aria-label={label}>
-                <Icon className="w-5 h-5" />
+      <footer className={`pt-16 pb-8 border-t ${hairline}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-8 mb-12">
+            <div className="md:col-span-2">
+              <a href="#" className="text-2xl font-bold font-display inline-flex items-center">
+                <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(90deg, var(--accent-color), var(--accent-color-2))' }}>JD</span>
+                <span className={`${isDark ? 'text-white/60' : 'text-slate-500'} font-normal ml-1`}>portfolio</span>
               </a>
-            ))}
+              <p className={`text-sm mt-3 max-w-sm ${surfaceMuted} leading-relaxed`}>
+                Senior full-stack engineer building performant, beautiful products. Available for freelance work and consulting worldwide.
+              </p>
+              <div className="flex flex-wrap items-center gap-2 mt-5">
+                {socialPlatforms.slice(0, 6).map(({ icon: Icon, label, platform, href, bg }) => (
+                  <a
+                    key={platform}
+                    href={href}
+                    aria-label={platform}
+                    className="group w-9 h-9 rounded-lg flex items-center justify-center transition-all"
+                    style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(15,23,42,0.05)' }}
+                  >
+                    <Icon className={`w-4 h-4 ${surfaceMuted} group-hover:text-white transition-colors`} />
+                    <span className={`absolute inset-0 rounded-lg bg-gradient-to-br ${bg} opacity-0 group-hover:opacity-100 transition-opacity -z-10`} />
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h4 className={`text-xs uppercase tracking-wider font-semibold mb-3 ${surfaceDim}`}>Navigate</h4>
+              <ul className="space-y-2">
+                {navTabs.map((t) => (
+                  <li key={t.id}>
+                    <button onClick={() => setActiveTab(t.id)} className={`text-sm ${surfaceMuted} ${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors`}>
+                      {t.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className={`text-xs uppercase tracking-wider font-semibold mb-3 ${surfaceDim}`}>Legal</h4>
+              <ul className="space-y-2 mb-4">
+                {['Privacy', 'Terms', 'Cookies', 'Colophon'].map((l) => (
+                  <li key={l}><a href="#" className={`text-sm ${surfaceMuted} ${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors`}>{l}</a></li>
+                ))}
+              </ul>
+              <div className={`text-xs ${surfaceDim} flex items-center gap-1.5`}>
+                <Circle className="w-2 h-2 fill-emerald-400 text-emerald-400" />
+                <span>All systems operational</span>
+              </div>
+            </div>
+          </div>
+          <div className={`pt-6 border-t ${hairline} flex flex-col sm:flex-row items-center justify-between gap-4 text-xs ${surfaceDim}`}>
+            <p>&copy; {new Date().getFullYear()} John Doe. Built with care in San Francisco.</p>
+            <div className="flex items-center gap-3">
+              <span>Theme: <span className="font-medium" style={{ color: 'var(--accent-color)' }}>{THEMES[theme]?.label}</span></span>
+              <span>&middot;</span>
+              <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors`}>
+                Back to top &uarr;
+              </button>
+            </div>
           </div>
         </div>
       </footer>
